@@ -17,11 +17,11 @@ public class Huffman
 
 	public static void comprimir(String filename)
 	{
-		// PROGRAMAR AQUI...
+		// TODO comprimir(String filename)
 	}
 	
 	public static void descomprimir(String filename)
 	{
-		// PROGRAMAR AQUI...
+		// TODO descomprimir(String filename)
 	}
 }

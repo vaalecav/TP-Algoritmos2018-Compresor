@@ -8,21 +8,21 @@ public class BitWriter
 	
 	public BitWriter(String filename)
 	{
-		// programar aqui		
+		//TODO BitWriter(String filename)
 	}
 		
 	public void writeBit(int bit)
 	{
-		// programar aqui		
+		//TODO  writeBit(int bit)
 	}
 	
 	public void flush()
 	{
-		// programar aqui		
+		//TODO  flush()
 	}
 	
 	public void close()
 	{
-		// programar aqui		
+		//TODO  close()
 	}
 }

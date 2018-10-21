@@ -6,55 +6,62 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 
-public class BitReader
-{
-	//private RandomAccessFile raf = null;
-	Map<Character, Integer> frequencies = new HashMap<Character, Integer>();
-	
-	public BitReader(String filename)
-	{
+import jhuffman.ds.CharFreq;
+
+public class BitReader {
+	private Reader reader;
+	private Reader buffer;
+
+	// private RandomAccessFile raf = null;
+	public SortedList<CharFreq> mapCharToFreq() {
+		FrequencyMapper fm = new FrequencyMapper();
+		SortedList<CharFreq> frequencies = new SortedList<CharFreq>();
+		int bit;
+		while (!eof(bit = readBit())) {
+			fm.logAppearance((char) bit);
+		}
+		for (Entry<Character, Integer> cf : fm.getList().entrySet()) {
+			frequencies.add(new CharFreq(cf.getKey(), cf.getValue()), new ComparatorCharFreq());
+		}
+
+		return frequencies;
+	}
+
+	public BitReader(String filename) {
 		File file = new File(filename);
-		try (InputStream in = new FileInputStream(file);
-				Reader reader = new InputStreamReader(in,Charset.defaultCharset());
-				Reader buffer = new BufferedReader(reader)) {
-			readBit(reader);
+		try {
+			InputStream in = new FileInputStream(file);
+			this.reader = new InputStreamReader(in, Charset.defaultCharset());
+			this.buffer = new BufferedReader(reader);
 		} catch (IOException e) {
 			System.err.println("File " + filename + " cannot be read: " + e.getMessage());
 			return;
 		}
 	}
-	
-	public int readBit(Reader reader) throws IOException
-	{
-		int read;
-		while (eof(read = reader.read())) {
-			Character c = new Character((char) read);
-			Integer freq = frequencies.get(c);
-			if (freq != null) {
-				frequencies.put(c, new Integer(freq + 1));
-			} else {
-				frequencies.put(c, new Integer(1));
-			}
+
+	public int readBit() {
+		try {
+			return reader.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
 		}
-		return 0;
+
 	}
-	
-	public boolean eof(int r)
-	{
-		if (r != -1){
+
+	public boolean eof(int r) {
+		if (r != -1) {
 			return false;
 		}
 		return true;
 	}
-		
-	public void close()
-	{
-		// programar aqui		
+
+	public void close() {
+		// TODO close()
 	}
 }
