@@ -1,10 +1,7 @@
 package jhuffman.util;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
-
-import jhuffman.ds.CharFreq;
 
 public class SortedList<T> extends LinkedList<T> {
 	public void add(T t, Comparator<T> cmpTT) {

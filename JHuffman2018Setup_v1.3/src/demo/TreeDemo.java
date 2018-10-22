@@ -25,7 +25,7 @@ public class TreeDemo
 		}
 	}
 
-	private static Node crearArbolHuffman()
+	public static Node crearArbolHuffman()
 	{
 		// nivel 5 (ultimo nivel)
 		Node nS=new Node('S',1,null,null);

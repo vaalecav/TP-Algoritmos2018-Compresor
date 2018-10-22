@@ -10,22 +10,22 @@ import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Map.Entry;
 
-import jhuffman.ds.CharFreq;
+import jhuffman.ds.Node;
 
 public class BitReader {
 	private Reader reader;
 	private Reader buffer;
 
 	// private RandomAccessFile raf = null;
-	public SortedList<CharFreq> mapCharToFreq() {
+	public SortedList<Node> mapCharToFreq() {
 		FrequencyMapper fm = new FrequencyMapper();
-		SortedList<CharFreq> frequencies = new SortedList<CharFreq>();
+		SortedList<Node> frequencies = new SortedList<Node>();
 		int bit;
 		while (!eof(bit = readBit())) {
 			fm.logAppearance((char) bit);
 		}
 		for (Entry<Character, Integer> cf : fm.getList().entrySet()) {
-			frequencies.add(new CharFreq(cf.getKey(), cf.getValue()), new ComparatorCharFreq());
+			frequencies.add(new Node(cf.getKey(), cf.getValue(), null, null), new ComparatorCharFreq());
 		}
 
 		return frequencies;
