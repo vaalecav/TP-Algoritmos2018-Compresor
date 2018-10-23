@@ -1,8 +1,6 @@
 package jhuffman.util;
 
-import java.util.ArrayList;
 import java.util.Stack;
-
 import jhuffman.ds.Node;
 
 public class TreeUtil

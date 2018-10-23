@@ -2,12 +2,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
-
 import jhuffman.ds.Node;
 import jhuffman.util.BitReader;
 import jhuffman.util.SortedList;
