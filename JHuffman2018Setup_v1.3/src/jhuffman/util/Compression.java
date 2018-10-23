@@ -6,6 +6,8 @@ import java.util.Map;
 import jhuffman.ds.Node;
 
 public class Compression {
+
+
 	
 	public static void encoder(SortedList<Node> list){
 		Node root = TreeUtil.makeTree(list);
@@ -26,6 +28,16 @@ public class Compression {
 	}
 	
 	public static void getCompressedFile(){
-		
+
+	}
+
+	public static String compressText(String text, Map<Character, String> huffmanPerCharacter){
+		StringBuilder compressedText = new StringBuilder();
+		for(int i = 0; i < text.length(); i++){
+			String huffed = huffmanPerCharacter.get(text.charAt(i));
+			compressedText.append(huffed);
+		}
+		String builded = compressedText.toString();
+		return BinaryConverter.binaryToString(builded);
 	}
 }
