@@ -9,6 +9,8 @@ import java.util.Map;
 import jhuffman.ds.Node;
 
 public class Compression {
+
+
 	
 	public static Map<Character,String> getMappedTree(String filename) {
 		BitReader bitReader = new BitReader(filename);
@@ -55,6 +57,16 @@ public class Compression {
 		fr.close();
 		
 		return String.valueOf(length).concat(compressedContent);
+	}
+		
+	public static String compressText(String text, Map<Character, String> huffmanPerCharacter){
+		StringBuilder compressedText = new StringBuilder();
+		for(int i = 0; i < text.length(); i++){
+			String huffed = huffmanPerCharacter.get(text.charAt(i));
+			compressedText.append(huffed);
+		}
+		String builded = compressedText.toString();
+		return BinaryConverter.binaryToString(builded);
 	}
 	
 	
