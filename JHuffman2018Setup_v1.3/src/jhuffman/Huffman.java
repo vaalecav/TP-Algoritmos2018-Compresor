@@ -26,9 +26,7 @@ public class Huffman
 		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
 		String compressed = Compression.getCompressedContent(huffmanTree, filename);
-	
-		
-		//escribir en archivo los 3 concatenados
+		//escribir en archivo los 2 concatenados
 	}
 	
 	public static void descomprimir(String filename)
