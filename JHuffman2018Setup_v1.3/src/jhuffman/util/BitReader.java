@@ -15,8 +15,19 @@ import jhuffman.ds.Node;
 public class BitReader {
 	private Reader reader;
 	private Reader buffer;
+	
+	public BitReader(String filename) {
+		File file = new File(filename);
+		try {
+			InputStream in = new FileInputStream(file);
+			this.reader = new InputStreamReader(in, Charset.defaultCharset());
+			this.buffer = new BufferedReader(reader);
+		} catch (IOException e) {
+			System.err.println("File " + filename + " cannot be read: " + e.getMessage());
+			return;
+		}
+	}
 
-	// private RandomAccessFile raf = null;
 	public SortedList<Node> mapCharToFreq() {
 		FrequencyMapper fm = new FrequencyMapper();
 		SortedList<Node> frequencies = new SortedList<Node>();
@@ -29,18 +40,6 @@ public class BitReader {
 		}
 
 		return frequencies;
-	}
-
-	public BitReader(String filename) {
-		File file = new File(filename);
-		try {
-			InputStream in = new FileInputStream(file);
-			this.reader = new InputStreamReader(in, Charset.defaultCharset());
-			this.buffer = new BufferedReader(reader);
-		} catch (IOException e) {
-			System.err.println("File " + filename + " cannot be read: " + e.getMessage());
-			return;
-		}
 	}
 
 	public int readBit() {
