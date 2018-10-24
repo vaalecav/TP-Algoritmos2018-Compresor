@@ -66,7 +66,7 @@ public class Huffman
 		BitReader reader = new BitReader(filename);
 		Map<String, Character> codes = new HashMap<String, Character> ();
 		Integer largo = Compression.getCodes(reader, codes);
-		String decompressed = Decompression.decompressText(Decompression.extractCompressedText(filename), codes);
+		String decompressed = Decompression.decompressText(Decompression.extractCompressedText(filename), codes, largo);
 		System.out.println(decompressed);
 		BitWriter writer = new BitWriter(filename.substring(0, filename.length()-4)+"_desc");
 		for (char c : decompressed.toCharArray()) {

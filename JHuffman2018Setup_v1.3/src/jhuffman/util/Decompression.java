@@ -23,12 +23,12 @@ public class Decompression {
 		return datos;
 	}
 
-	public static String decompressText(String text, Map<String, Character> huffmanPerBinSet){
+	public static String decompressText(String text, Map<String, Character> huffmanPerBinSet, Integer largo){
 		String bin = BinaryConverter.stringTobinary(text);
 
 		StringBuilder decompressedText = new StringBuilder();
 
-		for(int i = 0; i <= bin.length(); i++){
+		for(int i = 0; i <= bin.length() && decompressedText.length() < largo; i++){
 
 			String subBin = bin.substring(0, i);
 

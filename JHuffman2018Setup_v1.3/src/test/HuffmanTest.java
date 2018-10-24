@@ -29,7 +29,7 @@ public class HuffmanTest {
         huffmanPerCharacter.put("01", 'a');
         huffmanPerCharacter.put("00", 'b');
         huffmanPerCharacter.put("1111", 'c');
-        String decompressed = Decompression.decompressText(text, huffmanPerCharacter);
+        String decompressed = Decompression.decompressText(text, huffmanPerCharacter, Integer.MAX_VALUE);
         assertEquals("abc", decompressed);
     }
 }
