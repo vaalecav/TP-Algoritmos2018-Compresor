@@ -1,19 +1,21 @@
 package jhuffman.util;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class BitWriter
 {
 	private RandomAccessFile raf = null;
 	
-	public BitWriter(String filename)
+	public BitWriter(String filename) throws FileNotFoundException
 	{
-		//TODO BitWriter(String filename)
+		raf = new RandomAccessFile(filename, "rw");
 	}
 		
-	public void writeBit(int bit)
+	public void writeBit(int bit) throws IOException
 	{
-		//TODO  writeBit(int bit)
+		raf.write(bit);
 	}
 	
 	public void flush()
@@ -21,8 +23,8 @@ public class BitWriter
 		//TODO  flush()
 	}
 	
-	public void close()
+	public void close() throws IOException
 	{
-		//TODO  close()
+		raf.close();
 	}
 }

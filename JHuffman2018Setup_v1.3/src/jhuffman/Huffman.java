@@ -1,16 +1,18 @@
 package jhuffman;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
+import jhuffman.util.BitReader;
+import jhuffman.util.BitWriter;
 import jhuffman.util.Compression;
 
 public class Huffman
 {	
 	public static void main(String[] args) throws IOException
 	{
-		String filename = args[0];
+		String filename = "cocorito.bmp";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -25,12 +27,28 @@ public class Huffman
 	{
 		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
+		header+="\n";
 		String compressed = Compression.getCompressedContent(huffmanTree, filename);
-		//escribir en archivo los 2 concatenados
+		BitWriter writer = new BitWriter(filename+".huf");
+		for (char c : header.toCharArray()) {
+			writer.writeBit(c);
+		}
+		for (char c : compressed.toCharArray()) {
+			writer.writeBit(c);
+		}
+		writer.close();
 	}
 	
-	public static void descomprimir(String filename)
+	public static void descomprimir(String filename) throws IOException
 	{
-		// TODO descomprimir(String filename)
+		BitReader reader = new BitReader(filename);
+		Map<String, Character> codes = new HashMap<String, Character> ();
+		Integer largo = Compression.getCodes(reader, codes);
+		String decompressed = Compression.getDecompressedContent(codes, reader, largo);
+		System.out.println(decompressed);
+		BitWriter writer = new BitWriter(filename.substring(0, filename.length()-4)+"_desc");
+		for (char c : decompressed.toCharArray()) {
+			writer.writeBit(c);
+		}
 	}
 }
