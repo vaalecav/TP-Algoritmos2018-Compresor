@@ -1,6 +1,7 @@
 package jhuffman;
 
 import java.io.IOException;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public class Huffman
 {	
 	public static void main(String[] args) throws IOException
 	{
-		String filename = "cocorito.bmp";//args[0];
+		String filename = "cocorito.txt.huf";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -27,15 +28,19 @@ public class Huffman
 	{
 		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
-		header+="\n";
 		String compressed = Compression.getCompressedContent(huffmanTree, filename);
+		String total = header+"\n" + compressed;
+		
 		BitWriter writer = new BitWriter(filename+".huf");
-		for (char c : header.toCharArray()) {
-			writer.writeBit(c);
+		BitSet bitSet = new BitSet(total.length());
+		int bitcounter = 0;
+		for(Character c : total.toCharArray()) {
+		    if(c.equals('1')) {
+		        bitSet.set(bitcounter);
+		    }
+		    bitcounter++;
 		}
-		for (char c : compressed.toCharArray()) {
-			writer.writeBit(c);
-		}
+		writer.writeBytes(bitSet.toByteArray());
 		writer.close();
 	}
 	
