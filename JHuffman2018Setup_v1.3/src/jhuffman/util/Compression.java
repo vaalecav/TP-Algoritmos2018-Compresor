@@ -54,7 +54,7 @@ public class Compression {
 		return compressedContent;
 	}
 
-	public static String compressText(String text, Map<Character, String> huffmanPerCharacter) {
+	public static String compressText(Map<Character, String> huffmanPerCharacter, String text) {
 		StringBuilder compressedText = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			String huffed = huffmanPerCharacter.get(text.charAt(i));
@@ -87,8 +87,8 @@ public class Compression {
 		String output = "";
 		int c;
 		String code = "";
-			
-			while (output.length() < largo && !reader.eof(c = reader.readBit() - '0')) {
+
+			while (output.length() < largo && !reader.eof(c = reader.trueReadBit())) {
 				code += c;
 				Character caracter = codes.get(code);
 				if (caracter != null) {

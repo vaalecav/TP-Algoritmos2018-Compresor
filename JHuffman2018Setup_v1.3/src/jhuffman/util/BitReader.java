@@ -15,6 +15,7 @@ import jhuffman.ds.Node;
 public class BitReader {
 	private Reader reader;
 	private Reader buffer;
+	private String bitBuffer="";
 	
 	public BitReader(String filename) {
 		File file = new File(filename);
@@ -51,6 +52,15 @@ public class BitReader {
 			return -1;
 		}
 
+	}
+
+	public int trueReadBit() {
+		if(bitBuffer.length() < 1){
+			bitBuffer = BinaryConverter.stringTobinary(Integer.toString(readBit()));
+		}
+		int c = bitBuffer.charAt(0) == '1' ? 1 : 0;
+		bitBuffer = bitBuffer.substring(1);
+		return c;
 	}
 
 	public boolean eof(int r) {

@@ -18,7 +18,7 @@ public class HuffmanTest {
         huffmanPerCharacter.put('a', "01");
         huffmanPerCharacter.put('b', "00");
         huffmanPerCharacter.put('c', "1111");
-        String compressed = Compression.compressText(text, huffmanPerCharacter);
+        String compressed = Compression.compressText(huffmanPerCharacter, text);
         assertEquals("O", compressed);
     }
 
