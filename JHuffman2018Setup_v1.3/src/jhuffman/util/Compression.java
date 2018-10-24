@@ -44,15 +44,14 @@ public class Compression {
 	public static String getCompressedContent(Map<Character, String> huffmanTree, String filename) throws IOException {
 		FileReader fr = new FileReader(filename);
 		String compressedContent = "";
-		int length = 0, i;
+		int i;
 
 		while ((i = fr.read()) != -1) {
-			length++;
 			compressedContent += huffmanTree.get((char) i);
 		}
 		fr.close();
 
-		return String.valueOf(length)+"\n".concat(compressedContent);
+		return compressedContent;
 	}
 
 	public static String compressText(String text, Map<Character, String> huffmanPerCharacter) {

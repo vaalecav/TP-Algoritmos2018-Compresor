@@ -1,5 +1,6 @@
 package jhuffman;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.BitSet;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class Huffman
 {	
 	public static void main(String[] args) throws IOException
 	{
-		String filename = "cocorito.txt.huf";//args[0];
+		String filename = "cocorito.txt";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -26,20 +27,27 @@ public class Huffman
 
 	public static void comprimir(String filename) throws IOException
 	{
+		File file = new File (filename);
 		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
 		String compressed = Compression.getCompressedContent(huffmanTree, filename);
-		String total = header+"\n" + compressed;
+		String encabezadoTotal = header + "\n" + file.length() + "\n"; //le concateno la longitud del archivo
 		
 		BitWriter writer = new BitWriter(filename+".huf");
-		BitSet bitSet = new BitSet(total.length());
-		int bitcounter = 0;
-		for(Character c : total.toCharArray()) {
+		BitSet bitSet = new BitSet(compressed.length());
+		int bitcounter = 0;	
+		
+		for (char c : encabezadoTotal.toCharArray()) {
+			writer.writeBit(c);
+		}
+		
+		for(Character c : compressed.toCharArray()) {
 		    if(c.equals('1')) {
 		        bitSet.set(bitcounter);
 		    }
 		    bitcounter++;
 		}
+		
 		writer.writeBytes(bitSet.toByteArray());
 		writer.close();
 	}

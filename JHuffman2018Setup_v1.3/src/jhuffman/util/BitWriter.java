@@ -13,7 +13,7 @@ public class BitWriter
 	public BitWriter(String filename) throws FileNotFoundException
 	{
 		raf = new RandomAccessFile(filename, "rw");
-		fos = new FileOutputStream(filename);
+		fos = new FileOutputStream(filename, true);
 	}
 		
 	public void writeBit(int bit) throws IOException 
