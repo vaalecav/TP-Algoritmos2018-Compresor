@@ -13,7 +13,7 @@ public class Decompression {
 
 		StringBuilder decompressedText = new StringBuilder();
 
-		for(int i = 0; i < text.length(); i++){
+		for(int i = 0; i <= bin.length(); i++){
 
 			String subBin = bin.substring(0, i);
 
