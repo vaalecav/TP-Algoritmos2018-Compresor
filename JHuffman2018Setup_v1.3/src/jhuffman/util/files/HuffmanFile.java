@@ -38,8 +38,12 @@ public class HuffmanFile {
 		this.header = header;
 		this.headerLengh = Integer.toUnsignedLong(header.length());
 	}
-	public void dump() throws FileModeMismatchException, IOException{
+	public void dump() throws FileModeMismatchException, IOException, MissingDataException{
 		if(!mode().equals(FileMode.OUT)) throw new FileModeMismatchException();
+		if(headerLengh == null
+		|| header == null
+		|| originalContentLenght == null
+		|| compressedBits == null) throw new MissingDataException();
 		output.writeLong(headerLengh);
 		output.writeLong(originalContentLenght);
 		output.writeText(header);
