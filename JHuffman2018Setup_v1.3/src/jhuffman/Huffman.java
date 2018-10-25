@@ -12,7 +12,7 @@ public class Huffman
 {	
 	public static void main(String[] args) throws IOException
 	{
-		String filename = "cocorito.text";//args[0];
+		String filename = "test.bmp.huf";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -31,7 +31,11 @@ public class Huffman
 
 		FileReader fileReader = new FileReader(filename);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		String compressed = Compression.compressText(huffmanTree, bufferedReader.readLine());
+		String decompressed = "", aux = "";
+		while((aux = bufferedReader.readLine()) != null){
+			decompressed += aux;
+		}
+		String compressed = Compression.compressText(huffmanTree, decompressed);
 
 
 		String encabezadoTotal = header + "\n" + file.length() + "\n"; //le concateno la longitud del archivo
