@@ -1,6 +1,6 @@
 package test;
 
-import jhuffman.util.BinaryConverter;
+import jhuffman.util.files.BinaryConverter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

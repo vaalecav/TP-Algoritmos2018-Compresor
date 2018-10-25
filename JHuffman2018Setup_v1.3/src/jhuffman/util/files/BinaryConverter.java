@@ -1,4 +1,4 @@
-package jhuffman.util;
+package jhuffman.util.files;
 
 public class BinaryConverter {
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import jhuffman.ds.Node;
+import jhuffman.util.files.BinaryConverter;
 
 public class Compression {
 

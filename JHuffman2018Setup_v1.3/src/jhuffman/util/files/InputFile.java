@@ -1,4 +1,4 @@
-package jhuffman.util;
+package jhuffman.util.files;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,8 @@ public class InputFile {
 		file = new File(filename);
 		fileContent = Files.readAllBytes(file.toPath());
 		currentPos = 0;
-		bitContent = BinaryConverter.stringTobinary(getAllChars());
+		String aux = getAllChars();
+		bitContent = BinaryConverter.stringTobinary(aux);
 	}
 	public Integer getLenghtInBytes(){
 		return fileContent.length;
@@ -26,7 +27,11 @@ public class InputFile {
 		return fileContent.length*8;
 	}
 	public String getAllChars(){
-		return new String(fileContent, StandardCharsets.UTF_8);
+		StringBuilder out = new StringBuilder();
+		for(int i = 0; i < fileContent.length; i++){
+			out.append((char) fileContent[i]);
+		}
+		return out.toString();
 	}
 
 	public byte[] getAllBytes(){

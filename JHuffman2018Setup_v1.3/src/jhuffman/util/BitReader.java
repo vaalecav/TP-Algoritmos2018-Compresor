@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.util.Map.Entry;
 
 import jhuffman.ds.Node;
+import jhuffman.util.files.BinaryConverter;
 
 public class BitReader {
 	private Reader reader;

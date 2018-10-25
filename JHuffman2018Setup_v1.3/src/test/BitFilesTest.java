@@ -1,12 +1,9 @@
 package test;
 
-import jhuffman.util.InputFile;
+import jhuffman.util.files.InputFile;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 import static org.junit.Assert.assertEquals;
 
