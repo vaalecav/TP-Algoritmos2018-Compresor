@@ -62,7 +62,7 @@ public class Compression {
 			compressedText.append(huffed);
 		}
 		String builded = compressedText.toString();
-		return BinaryConverter.binaryToString(builded);
+		return BinaryConverter.binaryToString(builded).toString();
 	}
 
 	public static Integer getCodes(BitReader reader, Map<String, Character> output) {

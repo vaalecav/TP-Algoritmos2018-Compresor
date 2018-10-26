@@ -46,7 +46,7 @@ public class HuffmanFile {
 		|| compressedBits == null) throw new MissingDataException();
 		output.writeLong(headerLengh);
 		output.writeLong(originalContentLenght);
-		output.writeText(header);
+		output.writeText(header.toCharArray());
 		output.writeText(BinaryConverter.binaryToString(compressedBits));
 		output.flush();
 	}

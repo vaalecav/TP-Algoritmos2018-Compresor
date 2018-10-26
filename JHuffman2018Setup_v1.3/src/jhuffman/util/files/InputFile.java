@@ -49,12 +49,16 @@ public class InputFile {
 	}
 	public Long getNextLong(){
 		String bits = getNextBits(8*8);
-		String bytes = BinaryConverter.binaryToString(bits);
-		return ByteUtils.bytesToLong(bytes.getBytes(StandardCharsets.UTF_8));
+		char[] chars = BinaryConverter.binaryToString(bits);
+		byte[] bytes = new byte[chars.length];
+		for(int i = 0; i < bytes.length; i++){
+			bytes[i] = (byte) chars[i];
+		}
+		return ByteUtils.bytesToLong(bytes);
 	}
 
 	public Character getNextChar(){
-		return BinaryConverter.binaryToString(getNextBits(8)).charAt(0);
+		return BinaryConverter.binaryToString(getNextBits(8))[0];
 	}
 	public Integer getCurrentPosition(){
 		return currentPos;
