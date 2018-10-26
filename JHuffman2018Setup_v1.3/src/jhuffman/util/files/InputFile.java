@@ -27,11 +27,7 @@ public class InputFile {
 		return fileContent.length*8;
 	}
 	public String getAllChars(){
-		StringBuilder out = new StringBuilder();
-		for(int i = 0; i < fileContent.length; i++){
-			out.append((char) fileContent[i]);
-		}
-		return out.toString();
+		return new String(fileContent, StandardCharsets.ISO_8859_1);
 	}
 
 	public byte[] getAllBytes(){
