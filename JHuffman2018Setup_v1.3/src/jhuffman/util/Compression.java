@@ -1,12 +1,11 @@
 package jhuffman.util;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import jhuffman.ds.Node;
+import jhuffman.util.files.BinaryConverter;
 
 public class Compression {
 
@@ -46,25 +45,24 @@ public class Compression {
 	public static String getCompressedContent(Map<Character, String> huffmanTree, String filename) throws IOException {
 		FileReader fr = new FileReader(filename);
 		String compressedContent = "";
-		int length = 0, i;
+		int i;
 
 		while ((i = fr.read()) != -1) {
-			length++;
 			compressedContent += huffmanTree.get((char) i);
 		}
 		fr.close();
 
-		return String.valueOf(length)+"\n".concat(compressedContent);
+		return compressedContent;
 	}
 
-	public static String compressText(String text, Map<Character, String> huffmanPerCharacter) {
+	public static String compressText(Map<Character, String> huffmanPerCharacter, String text) {
 		StringBuilder compressedText = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			String huffed = huffmanPerCharacter.get(text.charAt(i));
 			compressedText.append(huffed);
 		}
 		String builded = compressedText.toString();
-		return BinaryConverter.binaryToString(builded);
+		return BinaryConverter.binaryToString(builded).toString();
 	}
 
 	public static Integer getCodes(BitReader reader, Map<String, Character> output) {
@@ -90,8 +88,8 @@ public class Compression {
 		String output = "";
 		int c;
 		String code = "";
-			
-			while (output.length() < largo && !reader.eof(c = reader.readBit() - '0')) {
+
+			while (output.length() < largo && !reader.eof(c = reader.trueReadBit())) {
 				code += c;
 				Character caracter = codes.get(code);
 				if (caracter != null) {

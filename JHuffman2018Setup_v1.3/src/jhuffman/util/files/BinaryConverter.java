@@ -1,22 +1,26 @@
-package jhuffman.util;
+package jhuffman.util.files;
+
+import java.nio.charset.StandardCharsets;
 
 public class BinaryConverter {
 
 	//Para un string de
-	public static String binaryToString(String s){
+	public static char[] binaryToString(String s){
 
 		while(s.length()%8 != 0){
 			s += "0";
 		}
 
-		StringBuilder str = new StringBuilder();
+		char[] str = new char[0];
 		for (int i = 0; i < s.length()/8; i++) {
 
 			int a = Integer.parseInt(s.substring(8*i,(i+1)*8),2);
-			str.append( (char)(a) );
+			char[] aux = new char[1];
+			aux[0] = (char)a;
+			str = concatCharArrays(str, aux);
 		}
 
-		return str.toString();
+		return str;
 	}
 
 	public static String stringTobinary(String text){
@@ -27,5 +31,19 @@ public class BinaryConverter {
 			output.append(aux);
 		}
 		return output.toString();
+	}
+
+	private static char[] concatCharArrays(char[] a, char[] b){
+		char[] c = new char[a.length + b.length];
+		int i = 0;
+		while(i < a.length){
+			c[i] = a[i];
+			i++;
+		}
+		while(i-a.length < b.length){
+			c[i] = b[i-a.length];
+			i++;
+		}
+		return c;
 	}
 }
