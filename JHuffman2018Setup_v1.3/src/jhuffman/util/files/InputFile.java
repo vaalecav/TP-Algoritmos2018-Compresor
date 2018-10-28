@@ -52,6 +52,13 @@ public class InputFile {
 		}
 		return ByteUtils.bytesToLong(bytes);
 	}
+	public void close(){
+		bitContent = null;
+		fileContent = null;
+		file = null;
+		currentPos = null;
+		System.gc();
+	}
 
 	public Character getNextChar(){
 		return BinaryConverter.binaryToString(getNextBits(8))[0];

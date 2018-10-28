@@ -1,18 +1,19 @@
 package jhuffman;
 
-import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 
-import jhuffman.util.BitReader;
 import jhuffman.util.Compression;
 import jhuffman.util.Decompression;
+import jhuffman.util.files.FileMode;
+import jhuffman.util.files.HuffmanFile;
+import jhuffman.util.files.InputFile;
+import jhuffman.util.files.OutputFile;
 
 public class Huffman
 {	
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws Exception
 	{
-		String filename = "test.bmp.huf";//args[0];
+		String filename = "cocorito.bmp";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -23,37 +24,29 @@ public class Huffman
 		}
 	}
 
-	public static void comprimir(String filename) throws IOException
+	public static void comprimir(String filename) throws Exception
 	{
-		File file = new File (filename);
-		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
+		Map<Character,String> huffmanTree = Compression.getHuffmanForFile(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
-
-		FileReader fileReader = new FileReader(filename);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		String decompressed = "", aux = "";
-		while((aux = bufferedReader.readLine()) != null){
-			decompressed += aux;
-		}
-		String compressed = Compression.compressText(huffmanTree, decompressed);
-
-
-		String encabezadoTotal = header + "\n" + file.length() + "\n"; //le concateno la longitud del archivo
-
-		BufferedWriter writer = new BufferedWriter(new FileWriter(filename + ".huf"));
-		writer.write(encabezadoTotal + compressed);
-		writer.close();
-
+		InputFile inputFile = new InputFile(filename);
+		Long originalLenght = inputFile.getLenghtInBytes().longValue();
+		String compressedBits = Compression.compressText(huffmanTree, inputFile.getAllChars());
+		inputFile.close();
+		HuffmanFile huffmanFile = new HuffmanFile(filename + ".huf", FileMode.OUT);
+		huffmanFile.setCompressedBits(compressedBits);
+		huffmanFile.setOriginalContentLenght(originalLenght);
+		huffmanFile.setHeader(header);
+		huffmanFile.dump();
 	}
 	
-	public static void descomprimir(String filename) throws IOException
+	public static void descomprimir(String filename) throws Exception
 	{
-		BitReader reader = new BitReader(filename);
-		Map<String, Character> codes = new HashMap<String, Character> ();
-		Integer largo = Compression.getCodes(reader, codes);
-		String decompressed = Decompression.decompressText(Decompression.extractCompressedText(filename), codes, largo);
-		BufferedWriter writer = new BufferedWriter(new FileWriter("desc_" + filename.substring(0, filename.length()-4)));
-		writer.write(decompressed);
-		writer.close();
+		HuffmanFile huffmanFile = new HuffmanFile(filename, FileMode.IN);
+		huffmanFile.retrieve();
+		Map<String, Character> huffMantree = Decompression.getHuffmanFromHeader(huffmanFile.getHeader());
+		String decompressed = Decompression.decompressText(huffmanFile.getCompressedBits(), huffMantree, huffmanFile.getOriginalContentLenght().intValue());
+		OutputFile outputFile = new OutputFile("desc_" + filename.substring(0, filename.length()-4));
+		outputFile.writeText(decompressed.toCharArray());
+		outputFile.flush();
 	}
 }

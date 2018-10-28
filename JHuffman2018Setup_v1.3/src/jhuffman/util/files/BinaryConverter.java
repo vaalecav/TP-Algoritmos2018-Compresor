@@ -6,7 +6,6 @@ public class BinaryConverter {
 
 	//Para un string de
 	public static char[] binaryToString(String s){
-
 		while(s.length()%8 != 0){
 			s += "0";
 		}

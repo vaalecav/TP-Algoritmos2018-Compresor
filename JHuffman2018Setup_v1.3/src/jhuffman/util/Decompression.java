@@ -1,31 +1,16 @@
 package jhuffman.util;
 
 import jhuffman.util.files.BinaryConverter;
+import jhuffman.util.files.HuffmanFile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Decompression {
-	
-	public static String extractCompressedText(String fileName) {
-		String datos = "";
-		try{
-			FileReader fileReader = new FileReader(fileName);
-			BufferedReader bufferedReader =
-					new BufferedReader(fileReader);
 
-			bufferedReader.readLine();//Mapa
-			Integer largo = Integer.parseInt(bufferedReader.readLine());//largo
-			datos = bufferedReader.readLine();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return datos;
-	}
-
-	public static String decompressText(String text, Map<String, Character> huffmanPerBinSet, Integer largo){
-		String bin = BinaryConverter.stringTobinary(text);
+	public static String decompressText(String bin, Map<String, Character> huffmanPerBinSet, Integer largo){
 
 		StringBuilder decompressedText = new StringBuilder();
 
@@ -42,5 +27,23 @@ public class Decompression {
 		}
 
 		return decompressedText.toString();
+	}
+
+	public static Map<String, Character> getHuffmanFromHeader(String header) {
+		Map<String, Character> huffmanMap = new HashMap<>();
+		Character c = null;
+		StringBuilder code = new StringBuilder();
+		for(int i =0; i < header.length(); i++){
+			if(c == null){
+				c = header.charAt(i);
+			}else if(header.charAt(i) != '|'){
+				code.append(header.charAt(i));
+			}else{
+				huffmanMap.put(code.toString(), c);
+				code = new StringBuilder();
+				c = null;
+			}
+		}
+		return huffmanMap;
 	}
 }

@@ -15,7 +15,7 @@ public class HuffmanFileTest {
 	@Test
 	public void dumpAndRetrieveFile() throws FileModeMismatchException, IOException, MissingDataException {
 		String cabecera = "abc";
-		String bits = "10101010";
+		String bits = "11111100";
 		Long largoOriginal = 3L;
 		HuffmanFile out = new HuffmanFile("test.huf", FileMode.OUT);
 		out.setHeader(cabecera);
