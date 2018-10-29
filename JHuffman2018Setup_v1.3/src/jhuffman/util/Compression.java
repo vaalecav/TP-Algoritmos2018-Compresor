@@ -12,6 +12,7 @@ public class Compression {
 	public static Map<Character, String> getHuffmanForFile(String filename) {
 		BitReader bitReader = new BitReader(filename);
 		SortedList<Node> list = bitReader.mapCharToFreq();
+		bitReader.close();
 		Node root = TreeUtil.makeTree(list);
 
 		StringBuffer sb = new StringBuffer();
