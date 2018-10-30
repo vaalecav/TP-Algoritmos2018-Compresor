@@ -9,9 +9,10 @@ import jhuffman.util.files.BinaryConverter;
 
 public class Compression {
 
-	public static Map<Character, String> getMappedTree(String filename) {
+	public static Map<Character, String> getHuffmanForFile(String filename) {
 		BitReader bitReader = new BitReader(filename);
 		SortedList<Node> list = bitReader.mapCharToFreq();
+		bitReader.close();
 		Node root = TreeUtil.makeTree(list);
 
 		StringBuffer sb = new StringBuffer();
@@ -32,28 +33,17 @@ public class Compression {
 
 	// Devuelve el arbol huffman
 	public static String getHuffmanHeader(Map<Character, String> huffmanTree) {
-		String header = "";
+		StringBuilder header = new StringBuilder();
 
 		for (Character c : huffmanTree.keySet()) {
-			header += c + String.valueOf(huffmanTree.get(c).length()) + huffmanTree.get(c);
+			header.append(c);
+			header.append(huffmanTree.get(c));
+			header.append('|');
 		}
-		return header;
+		return header.toString();
 
 	}
 
-	// Devuelve longitud del archivo y el archivo comprimido
-	public static String getCompressedContent(Map<Character, String> huffmanTree, String filename) throws IOException {
-		FileReader fr = new FileReader(filename);
-		String compressedContent = "";
-		int i;
-
-		while ((i = fr.read()) != -1) {
-			compressedContent += huffmanTree.get((char) i);
-		}
-		fr.close();
-
-		return compressedContent;
-	}
 
 	public static String compressText(Map<Character, String> huffmanPerCharacter, String text) {
 		StringBuilder compressedText = new StringBuilder();
@@ -61,43 +51,7 @@ public class Compression {
 			String huffed = huffmanPerCharacter.get(text.charAt(i));
 			compressedText.append(huffed);
 		}
-		String builded = compressedText.toString();
-		return BinaryConverter.binaryToString(builded).toString();
+		return compressedText.toString();
 	}
 
-	public static Integer getCodes(BitReader reader, Map<String, Character> output) {
-		int c;
-		
-		while ((c = reader.readBit()) != ((int) '\n')) {
-			int length = reader.readBit() - '0';
-			String code = "";
-			for (int i = 0; i < length; i++) {
-				code += reader.readBit() - '0';
-			}
-			output.put(code, (char) c);
-		}
-		String largo ="";
-		while ((c = reader.readBit()) != ((int) '\n')) {
-			largo += (char) c;
-			
-		}
-		return Integer.parseInt(largo);
-	}
-
-	public static String getDecompressedContent(Map<String, Character> codes, BitReader reader, Integer largo) {
-		String output = "";
-		int c;
-		String code = "";
-
-			while (output.length() < largo && !reader.eof(c = reader.trueReadBit())) {
-				code += c;
-				Character caracter = codes.get(code);
-				if (caracter != null) {
-					output += caracter;
-					code = "";
-					continue;
-				}
-		}
-		return output;
-	}
 }

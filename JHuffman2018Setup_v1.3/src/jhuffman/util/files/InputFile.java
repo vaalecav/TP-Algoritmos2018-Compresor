@@ -10,15 +10,14 @@ public class InputFile {
 	private Integer currentPos;
 	private File file;
 	byte[] fileContent;
-	private String bitContent;
+	boolean eof;
 
 
 	public InputFile(String filename) throws IOException {
 		file = new File(filename);
 		fileContent = Files.readAllBytes(file.toPath());
 		currentPos = 0;
-		String aux = getAllChars();
-		bitContent = BinaryConverter.stringTobinary(aux);
+		eof = false;
 	}
 	public Integer getLenghtInBytes(){
 		return fileContent.length;
@@ -35,11 +34,20 @@ public class InputFile {
 	}
 
 	public String getAllBits(){
-		return bitContent;
+		return BinaryConverter.stringTobinary(getAllChars());
 	}
 
 	public String getNextBits(Integer n){
-		String out = bitContent.substring(currentPos, currentPos + n);
+		String out = "";
+		while(n > 0){
+			try{
+				out = getAllBits().substring(currentPos, currentPos + n);
+				break;
+			}catch (StringIndexOutOfBoundsException e){
+				n--;
+			}
+		}
+		if(out.isEmpty()) eof = true;
 		currentPos += n;
 		return out;
 	}
@@ -52,17 +60,29 @@ public class InputFile {
 		}
 		return ByteUtils.bytesToLong(bytes);
 	}
+	public void close(){
+		fileContent = null;
+		file = null;
+		currentPos = null;
+		System.gc();
+	}
 
 	public Character getNextChar(){
-		return BinaryConverter.binaryToString(getNextBits(8))[0];
+		try{
+			return BinaryConverter.binaryToString(getNextBits(8))[0];
+		}catch (ArrayIndexOutOfBoundsException e){
+			eof = true;
+			return null;
+		}
 	}
 	public Integer getCurrentPosition(){
 		return currentPos;
 	}
 	public void resetPosition(){
 		currentPos = 0;
+		eof = false;
 	}
 	public Boolean eof(){
-		return getCurrentPosition().equals(getLenghtInBits());
+		return getCurrentPosition() >= getLenghtInBits() || eof;
 	}
 }
