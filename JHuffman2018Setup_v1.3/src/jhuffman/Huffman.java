@@ -29,21 +29,24 @@ public class Huffman
 		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
 
-		FileReader fileReader = new FileReader(filename);
+		/*FileReader fileReader = new FileReader(filename);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		String decompressed = "", aux = "";
 		while((aux = bufferedReader.readLine()) != null){
 			decompressed += aux;
-		}
-		String compressed = Compression.compressText(huffmanTree, decompressed);
-
-
+		}*/
+		
 		String encabezadoTotal = header + "\n" + file.length() + "\n"; //le concateno la longitud del archivo
-
+		
 		BufferedWriter writer = new BufferedWriter(new FileWriter(filename + ".huf"));
-		writer.write(encabezadoTotal + compressed);
+		writer.write(encabezadoTotal);
 		writer.close();
+		
+		// escribir 1 a 1 lo que va comprimiendo
+		//String compressed = Compression.compressText(huffmanTree, decompressed);
+		SCompression.compressContent(huffmanTree, filename);
 
+		
 	}
 	
 	public static void descomprimir(String filename) throws IOException

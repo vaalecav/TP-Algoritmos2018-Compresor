@@ -42,17 +42,17 @@ public class Compression {
 	}
 
 	// Devuelve longitud del archivo y el archivo comprimido
-	public static String getCompressedContent(Map<Character, String> huffmanTree, String filename) throws IOException {
+	public static void compressContent(Map<Character, String> huffmanTree, String filename) throws IOException {
 		FileReader fr = new FileReader(filename);
-		String compressedContent = "";
 		int i;
 
 		while ((i = fr.read()) != -1) {
-			compressedContent += huffmanTree.get((char) i);
+			 huffmanTree.get((char) i);
+			 // hacer un buffer de nosecuantos bytes, ir guardando a medida que leo
+			 // cuando se llena lo escribo al archivo y lo vacio
 		}
 		fr.close();
 
-		return compressedContent;
 	}
 
 	public static String compressText(Map<Character, String> huffmanPerCharacter, String text) {
