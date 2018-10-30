@@ -47,7 +47,12 @@ public class Compression {
 		
 		while ((i = fr.read()) != -1) {
 			 String code = huffmanTree.get((char) i);
+			 byte[] bytes = new byte[4];
+			 String buffer = "";
 			 
+			 //ir agregando bits de code al array de bytes, y cuando llega a 4 bytes (32 bits)
+			 // guardo en buffer lo que me sobra, lo agrego al nuevo array de bytes y continuo
+			 // leyendo los siguientes codigos (y asi sucesivamente)
 			 // TODO hacer un buffer de nosecuantos bytes, ir guardando bits a medida que leo
 			 // TODO cuando se llena el buffer lo escribo al archivo, luego lo vacio para seguir leyendo
 		}
