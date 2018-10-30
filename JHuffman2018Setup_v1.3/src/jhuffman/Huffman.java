@@ -28,13 +28,6 @@ public class Huffman
 		File file = new File (filename);
 		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
 		String header = Compression.getHuffmanHeader(huffmanTree);
-
-		/*FileReader fileReader = new FileReader(filename);
-		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		String decompressed = "", aux = "";
-		while((aux = bufferedReader.readLine()) != null){
-			decompressed += aux;
-		}*/
 		
 		String encabezadoTotal = header + "\n" + file.length() + "\n"; //le concateno la longitud del archivo
 		
@@ -43,8 +36,7 @@ public class Huffman
 		writer.close();
 		
 		// escribir 1 a 1 lo que va comprimiendo
-		//String compressed = Compression.compressText(huffmanTree, decompressed);
-		SCompression.compressContent(huffmanTree, filename);
+		Compression.compressContent(huffmanTree, filename);
 
 		
 	}
