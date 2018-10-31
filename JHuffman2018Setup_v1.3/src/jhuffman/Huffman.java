@@ -12,7 +12,7 @@ public class Huffman
 {	
 	public static void main(String[] args) throws IOException
 	{
-		String filename = "cocorito.bmp";//args[0];
+		String filename = "cocorito.txt.huf";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -25,14 +25,16 @@ public class Huffman
 
 	public static void comprimir(String filename) throws IOException
 	{
-		Map<Character,String> huffmanTree = Compression.getMappedTree(filename);
+		Map<Character,String> huffmanTree = new HashMap<Character,String>();
+		int longitudDelTextoAComprimir = Compression.getMappedTree(filename, huffmanTree);
 		String header = Compression.getHuffmanHeader(huffmanTree);
-		header+="\n";
 		String compressed = Compression.getCompressedContent(huffmanTree, filename);
 		BitWriter writer = new BitWriter(filename+".huf");
+		writer.writeBit(header.length());
 		for (char c : header.toCharArray()) {
 			writer.writeBit(c);
 		}
+		writer.writeBit(longitudDelTextoAComprimir);
 		for (char c : compressed.toCharArray()) {
 			writer.writeBit(c);
 		}
@@ -46,9 +48,11 @@ public class Huffman
 		Integer largo = Compression.getCodes(reader, codes);
 		String decompressed = Compression.getDecompressedContent(codes, reader, largo);
 		System.out.println(decompressed);
-		BitWriter writer = new BitWriter(filename.substring(0, filename.length()-4)+"_desc");
+		
+		BitWriter writer = new BitWriter("desc_" + filename.substring(0, filename.length()-4));
 		for (char c : decompressed.toCharArray()) {
 			writer.writeBit(c);
 		}
+		writer.close();
 	}
 }

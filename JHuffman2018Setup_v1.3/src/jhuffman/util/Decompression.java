@@ -1,30 +1,26 @@
 package jhuffman.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.Map;
 
 public class Decompression {
 	
-	public void decode(String text) {
-
-	}
-
-	public static String decompressText(String text, Map<String, Character> huffmanPerBinSet){
-		String bin = BinaryConverter.stringTobinary(text);
-
-		StringBuilder decompressedText = new StringBuilder();
-
-		for(int i = 0; i < text.length(); i++){
-
-			String subBin = bin.substring(0, i);
-
-			if( huffmanPerBinSet.containsKey( subBin ) ){
-
-				decompressedText.append( huffmanPerBinSet.get(subBin) );
-				bin = bin.substring(i);
-				i = 0;
+	public static String extractCompressedText(String fileName, Integer largo) {
+		String datos = "";
+		try{
+			FileReader fileReader = new FileReader(fileName);
+			BufferedReader bufferedReader =
+					new BufferedReader(fileReader);
+			Integer offsetPorCabecera = bufferedReader.read();
+			while (offsetPorCabecera-- > 0) {
+				bufferedReader.read();
 			}
+			datos = bufferedReader.readLine();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-
-		return decompressedText.toString();
+		return datos;
 	}
+
 }
