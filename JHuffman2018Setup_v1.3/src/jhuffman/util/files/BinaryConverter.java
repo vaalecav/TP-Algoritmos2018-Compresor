@@ -30,7 +30,10 @@ public class BinaryConverter {
 			while(aux.length() % 8 != 0) aux = "0" + aux;
 			output.append(aux);
 		}
-		return output.toString();
+		return output.toString(); //FIXME esto devuelve cosas tipo 
+								//"0011000000110000001100000011000000110001" 
+								//cuando deberia devolver cosas tipo 
+								//"	`MÀy¦Ü	`t\w×" 
 	}
 
 	private static char[] concatCharArrays(char[] a, char[] b){

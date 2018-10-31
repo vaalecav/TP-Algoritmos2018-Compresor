@@ -25,6 +25,10 @@ public class BitWriter
 		fos.write(bytes);
 	}
 	
+	public void write(String bytes) throws IOException{
+		raf.writeBytes(bytes);
+	}
+	
 	public void flush()
 	{
 		//TODO  flush()
