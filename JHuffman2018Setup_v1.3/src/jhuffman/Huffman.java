@@ -13,7 +13,7 @@ public class Huffman
 {	
 	public static void main(String[] args) throws Exception
 	{
-		String filename = "test.bmp";//args[0];
+		String filename = "test.bmp.huf";//args[0];
 		if( filename.endsWith(".huf") )
 		{
 			descomprimir(filename);
@@ -34,7 +34,7 @@ public class Huffman
 		System.out.println("Habierto Archivo");
 		Long originalLenght = inputFile.getLenghtInBytes().longValue();
 		System.out.println("Calculado Largo");
-		String compressedBits = Compression.compressText(huffmanTree, inputFile.getAllChars());
+		String compressedBits = Compression.compressText(huffmanTree, inputFile);
 		System.out.println("Obtenido los bits comprimidos");
 		inputFile.close();
 		HuffmanFile huffmanFile = new HuffmanFile(filename + ".huf", FileMode.OUT);

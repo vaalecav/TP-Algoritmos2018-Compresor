@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import jhuffman.ds.Node;
 import jhuffman.util.files.BinaryConverter;
+import jhuffman.util.files.InputFile;
 
 public class Compression {
 
@@ -45,10 +46,13 @@ public class Compression {
 	}
 
 
-	public static String compressText(Map<Character, String> huffmanPerCharacter, String text) {
+	public static String compressText(Map<Character, String> huffmanPerCharacter, InputFile text) {
 		StringBuilder compressedText = new StringBuilder();
-		for (int i = 0; i < text.length(); i++) {
-			String huffed = huffmanPerCharacter.get(text.charAt(i));
+		Character cha;
+		while (!text.eof()) {
+			cha = text.getNextChar();
+			if(cha ==  null) break;
+			String huffed = huffmanPerCharacter.get(cha);
 			compressedText.append(huffed);
 		}
 		return compressedText.toString();

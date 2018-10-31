@@ -1,7 +1,9 @@
 package jhuffman.util.files;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
@@ -10,23 +12,30 @@ public class InputFile {
 	private Integer currentPos;
 	private File file;
 	byte[] fileContent;
+	InputStream inputStream;
+	String bitsBuffer;
 	boolean eof;
 
 
 	public InputFile(String filename) throws IOException {
 		file = new File(filename);
-		fileContent = Files.readAllBytes(file.toPath());
+		fileContent = null;//Files.readAllBytes(file.toPath());
+		inputStream = new FileInputStream(file);
 		currentPos = 0;
+		bitsBuffer = "";
 		eof = false;
 	}
 	public Integer getLenghtInBytes(){
-		return fileContent.length;
+		return (int) file.length();
 	}
 	public Integer getLenghtInBits(){
-		return fileContent.length*8;
+		return (int) file.length()*8;
 	}
 	public String getAllChars(){
-		return new String(fileContent, StandardCharsets.ISO_8859_1);
+		return bytesToString(fileContent);
+	}
+	public String bytesToString(byte[] bytes){
+		return new String(bytes, StandardCharsets.ISO_8859_1);
 	}
 
 	public byte[] getAllBytes(){
@@ -39,18 +48,25 @@ public class InputFile {
 
 	public String getNextBits(Integer n){
 		String out = "";
-		while(n > 0){
+		while(n > bitsBuffer.length()){
+			byte[] bytes = new byte[1];
 			try{
-				out = getAllBits().substring(currentPos, currentPos + n);
+				if(inputStream.read(bytes) == 0){
+					eof = true;
+					return null;
+				}
+				String bits = BinaryConverter.stringTobinary(bytesToString(bytes));
+				bitsBuffer += bits;
+			}catch (Exception e){
 				break;
-			}catch (StringIndexOutOfBoundsException e){
-				n--;
 			}
 		}
-		if(out.isEmpty()) eof = true;
 		currentPos += n;
+		out = bitsBuffer.substring(0,n);
+		bitsBuffer = bitsBuffer.substring(n);
 		return out;
 	}
+
 	public Long getNextLong(){
 		String bits = getNextBits(8*8);
 		char[] chars = BinaryConverter.binaryToString(bits);

@@ -11,16 +11,16 @@ import static org.junit.Assert.assertEquals;
 
 public class HuffmanTest {
 
-    @Test
-    public void compress(){
-        String text = "abc";
-        Map<Character, String> huffmanPerCharacter = new HashMap<>();
-        huffmanPerCharacter.put('a', "01");
-        huffmanPerCharacter.put('b', "00");
-        huffmanPerCharacter.put('c', "1111");
-        String compressed = Compression.compressText(huffmanPerCharacter, text);
-        assertEquals("O", compressed);
-    }
+//    @Test
+//    public void compress(){
+//        String text = "abc";
+//        Map<Character, String> huffmanPerCharacter = new HashMap<>();
+//        huffmanPerCharacter.put('a', "01");
+//        huffmanPerCharacter.put('b', "00");
+//        huffmanPerCharacter.put('c', "1111");
+//        String compressed = Compression.compressText(huffmanPerCharacter, text);
+//        assertEquals("O", compressed);
+//    }
 
     @Test
     public void decompress(){
